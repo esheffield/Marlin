@@ -824,6 +824,12 @@
   #endif
 #endif
 
+#ifdef SHEFRAP_ENDSTOPS
+#define X_MAX_PIN          -1
+#define Y_MIN_PIN          -1
+#define Z_MIN_PIN          -1
+#endif
+
 #define SENSITIVE_PINS { 0, 1, \
     X_STEP_PIN, X_DIR_PIN, X_ENABLE_PIN, X_MIN_PIN, X_MAX_PIN, X_MS1_PIN, X_MS2_PIN, X_CS_PIN, \
     Y_STEP_PIN, Y_DIR_PIN, Y_ENABLE_PIN, Y_MIN_PIN, Y_MAX_PIN, Y_MS1_PIN, Y_MS2_PIN, Y_CS_PIN, \
@@ -880,3 +886,4 @@
 #endif
 
 #endif // __PINS_H__
+
