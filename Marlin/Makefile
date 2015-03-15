@@ -37,11 +37,11 @@
 # from the commandline with "make HARDWARE_MOTHERBOARD=71" for example
 
 # This defined the board you are compiling for (see Configuration.h for the options)
-HARDWARE_MOTHERBOARD ?= 11
+HARDWARE_MOTHERBOARD ?= 34
 
 # Arduino source install directory, and version number
-ARDUINO_INSTALL_DIR  ?= ../../arduino-0022
-ARDUINO_VERSION      ?= 22
+ARDUINO_INSTALL_DIR  ?= /home/eddie/opt/arduino-1.6.1
+ARDUINO_VERSION      ?= 161
 
 # You can optionally set a path to the avr-gcc tools. Requires a trailing slash. (ex: /usr/local/avr-gcc/bin)
 AVR_TOOLS_PATH ?=
@@ -188,7 +188,8 @@ else
 HARDWARE_DIR = ../ArduinoAddons/Arduino_0.xx
 endif
 endif
-HARDWARE_SRC = $(HARDWARE_DIR)/$(HARDWARE_VARIANT)/cores/arduino
+HARDWARE_SRC = $(HARDWARE_DIR)/$(HARDWARE_VARIANT)/avr/cores/arduino
+ARDUINO_LIB_DIR = $(ARDUINO_INSTALL_DIR)/hardware/arduino/avr/libraries
 
 TARGET = $(notdir $(CURDIR))
 
@@ -200,15 +201,15 @@ VPATH = .
 VPATH += $(BUILD_DIR)
 VPATH += $(HARDWARE_SRC)
 ifeq ($(HARDWARE_VARIANT), arduino)
-VPATH += $(ARDUINO_INSTALL_DIR)/libraries/LiquidCrystal
-VPATH += $(ARDUINO_INSTALL_DIR)/libraries/SPI
+VPATH += $(ARDUINO_INSTALL_DIR)/libraries/LiquidCrystal/src
+VPATH += $(ARDUINO_LIB_DIR)/SPI
 ifeq ($(LIQUID_TWI2), 1)
-VPATH += $(ARDUINO_INSTALL_DIR)/libraries/Wire
-VPATH += $(ARDUINO_INSTALL_DIR)/libraries/Wire/utility
-VPATH += $(ARDUINO_INSTALL_DIR)/libraries/LiquidTWI2
+VPATH += $(ARDUINO_LIB_DIR)/Wire
+VPATH += $(ARDUINO_LIB_DIR)/Wire/utility
+VPATH += $(ARDUINO_LIB_DIR)/LiquidTWI2
 endif
 else
-VPATH += $(HARDWARE_DIR)/libraries/LiquidCrystal
+VPATH += $(ARDUINO_INSTALL_DIR)/libraries/LiquidCrystal
 VPATH += $(HARDWARE_DIR)/libraries/SPI
 ifeq ($(LIQUID_TWI2), 1)
 VPATH += $(HARDWARE_DIR)/libraries/Wire
@@ -218,7 +219,7 @@ endif
 endif
 ifeq ($(HARDWARE_VARIANT), arduino)
 HARDWARE_SUB_VARIANT ?= mega
-VPATH += $(ARDUINO_INSTALL_DIR)/hardware/arduino/variants/$(HARDWARE_SUB_VARIANT)
+VPATH += $(ARDUINO_INSTALL_DIR)/hardware/arduino/avr/variants/$(HARDWARE_SUB_VARIANT)
 else
 HARDWARE_SUB_VARIANT ?= standard
 VPATH += $(HARDWARE_DIR)/$(HARDWARE_VARIANT)/variants/$(HARDWARE_SUB_VARIANT)
@@ -226,7 +227,8 @@ endif
 SRC = wiring.c \
 	wiring_analog.c wiring_digital.c \
 	wiring_pulse.c \
-	wiring_shift.c WInterrupts.c
+	wiring_shift.c WInterrupts.c \
+	hooks.c
 CXXSRC = WMath.cpp WString.cpp Print.cpp Marlin_main.cpp	\
 	MarlinSerial.cpp Sd2Card.cpp SdBaseFile.cpp SdFatUtil.cpp	\
 	SdFile.cpp SdVolume.cpp motion_control.cpp planner.cpp		\
@@ -312,11 +314,11 @@ LDFLAGS = -lm
 # Programming support using avrdude. Settings and variables.
 AVRDUDE_PORT = $(UPLOAD_PORT)
 AVRDUDE_WRITE_FLASH = -U flash:w:$(BUILD_DIR)/$(TARGET).hex:i
-ifeq ($(shell uname -s), Linux)
-AVRDUDE_CONF = $(ARDUINO_INSTALL_DIR)/hardware/tools/avrdude.conf
-else
+#ifeq ($(shell uname -s), Linux)
+#AVRDUDE_CONF = $(ARDUINO_INSTALL_DIR)/hardware/tools/avrdude.conf
+#else
 AVRDUDE_CONF = $(ARDUINO_INSTALL_DIR)/hardware/tools/avr/etc/avrdude.conf
-endif
+#endif
 AVRDUDE_FLAGS = -D -C $(AVRDUDE_CONF) \
 	-p $(MCU) -P $(AVRDUDE_PORT) -c $(AVRDUDE_PROGRAMMER) \
 	-b $(UPLOAD_RATE)
