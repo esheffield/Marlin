@@ -880,7 +880,7 @@
 // Direction of endstops when homing; 1=MAX, -1=MIN
 // :[-1,1]
 #define X_HOME_DIR -1
-#define Y_HOME_DIR 1
+#define Y_HOME_DIR -1
 #define Z_HOME_DIR 1
 
 // @section machine
@@ -1126,7 +1126,6 @@
  */
 //#define Z_PROBE_END_SCRIPT "G1 Z10 F12000\nG1 X15 Y330\nG1 Z0.5\nG1 Z10"
 
-
 // @section homing
 
 // The center of the bed is at (X=0, Y=0)
@@ -1134,9 +1133,9 @@
 
 // Manually set the home position. Leave these undefined for automatic settings.
 // For DELTA this is the top-center of the Cartesian print volume.
-#define MANUAL_X_HOME_POS 0
+#define MANUAL_X_HOME_POS X_MIN_POS
 #define MANUAL_Y_HOME_POS Y_MAX_POS
-#define MANUAL_Z_HOME_POS 0
+#define MANUAL_Z_HOME_POS Z_MAX_POS
 
 // Use "Z Safe Homing" to avoid homing with a Z probe outside the bed area.
 //
