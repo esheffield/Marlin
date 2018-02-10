@@ -1,252 +1,86 @@
-==========================
-Marlin 3D Printer Firmware
-==========================
+# Marlin 3D Printer Firmware
+<img align="right" src="../../raw/1.1.x/buildroot/share/pixmaps/logo/marlin-250.png" />
 
-[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=ErikZalm&url=https://github.com/ErikZalm/Marlin&title=Marlin&language=&tags=github&category=software)
+## Marlin 1.1
 
-Quick Information
-===================
-This RepRap firmware is a mashup between <a href="https://github.com/kliment/Sprinter">Sprinter</a>, <a href="https://github.com/simen/grbl/tree">grbl</a> and many original parts.
+Marlin 1.1 represents an evolutionary leap over Marlin 1.0.2. It is the result of over two years of effort by several volunteers around the world who have paid meticulous and sometimes obsessive attention to every detail. For this release we focused on code quality, performance, stability, and overall user experience. Several new features have also been added, many of which require no extra hardware.
 
-Derived from Sprinter and Grbl by Erik van der Zalm.
-Sprinters lead developers are Kliment and caru.
-Grbls lead developer is Simen Svale Skogsrud. Sonney Jeon (Chamnit) improved some parts of grbl
-A fork by bkubicek for the Ultimaker was merged, and further development was aided by him.
-Some features have been added by:
-Lampmaker, Bradley Feldman, and others...
+For complete Marlin documentation click over to the [Marlin Homepage <marlinfw.org>](http://marlinfw.org/), where you will find in-depth articles, how-to videos, and tutorials on every aspect of Marlin, as the site develops. For release notes, see the [Releases](https://github.com/MarlinFirmware/Marlin/releases) page.
 
+## Stable Release Branch
 
-Features:
+This Release branch contains the latest tagged version of Marlin (currently 1.1.3 – June 2017).
 
-*   Interrupt based movement with real linear acceleration
-*   High steprate
-*   Look ahead (Keep the speed high when possible. High cornering speed)
-*   Interrupt based temperature protection
-*   preliminary support for Matthew Roberts advance algorithm
-    For more info see: http://reprap.org/pipermail/reprap-dev/2011-May/003323.html
-*   Full endstop support
-*   SD Card support
-*   SD Card folders (works in pronterface)
-*   SD Card autostart support
-*   LCD support (ideally 20x4)
-*   LCD menu system for autonomous SD card printing, controlled by an click-encoder.
-*   EEPROM storage of e.g. max-velocity, max-acceleration, and similar variables
-*   many small but handy things originating from bkubicek's fork.
-*   Arc support
-*   Temperature oversampling
-*   Dynamic Temperature setpointing aka "AutoTemp"
-*   Support for QTMarlin, a very beta GUI for PID-tuning and velocity-acceleration testing. https://github.com/bkubicek/QTMarlin
-*   Endstop trigger reporting to the host software.
-*   Updated sdcardlib
-*   Heater power reporting. Useful for PID monitoring.
-*   PID tuning
-*   CoreXY kinematics (www.corexy.com/theory.html)
-*   Delta kinematics
-*   Dual X-carriage support for multiple extruder systems
-*   Configurable serial port to support connection of wireless adaptors.
-*   Automatic operation of extruder/cold-end cooling fans based on nozzle temperature
-*   RC Servo Support, specify angle or duration for continuous rotation servos.
+Previous releases of Marlin include [1.0.2-2](https://github.com/MarlinFirmware/Marlin/tree/1.0.2-2) (December 2016) and [1.0.1](https://github.com/MarlinFirmware/Marlin/tree/1.0.1) (December 2014). Any version of Marlin prior to 1.0.1 (when we started tagging versions) can be collectively referred to as Marlin 1.0.0.
 
-The default baudrate is 250000. This baudrate has less jitter and hence errors than the usual 115200 baud, but is less supported by drivers and host-environments.
+## Contributing to Marlin
 
+Click on the [Issue Queue](https://github.com/MarlinFirmware/Marlin/issues) and [Pull Requests](https://github.com/MarlinFirmware/Marlin/pulls) links above at any time to see what we're currently working on.
 
-Differences and additions to the already good Sprinter firmware:
-================================================================
+To submit patches and new features for Marlin 1.1 check out the [bugfix-1.1.x](https://github.com/MarlinFirmware/Marlin/tree/bugfix-1.1.x) branch, add your commits, and submit a Pull Request back to the `bugfix-1.1.x` branch. Periodically that branch will form the basis for the next minor release.
 
-*Look-ahead:*
+Note that our "bugfix" branch will always contain the latest patches to the current release version. These patches may not be widely tested. As always, when using "nightly" builds of Marlin, proceed with full caution.
 
-Marlin has look-ahead. While sprinter has to break and re-accelerate at each corner,
-lookahead will only decelerate and accelerate to a velocity,
-so that the change in vectorial velocity magnitude is less than the xy_jerk_velocity.
-This is only possible, if some future moves are already processed, hence the name.
-It leads to less over-deposition at corners, especially at flat angles.
+## Current Status: In Development
 
-*Arc support:*
+Marlin development has reached an important milestone with its first stable release in over 2 years. During this period we focused on cleaning up the code and making it more modern, consistent, readable, and sensible.
 
-Slic3r can find curves that, although broken into segments, were ment to describe an arc.
-Marlin is able to print those arcs. The advantage is the firmware can choose the resolution,
-and can perform the arc with nearly constant velocity, resulting in a nice finish.
-Also, less serial communication is needed.
+## Future Development
 
-*Temperature Oversampling:*
+Marlin 1.1 is the last "flat" version of Marlin!
 
-To reduce noise and make the PID-differential term more useful, 16 ADC conversion results are averaged.
+Arduino IDE now has support for folder hierarchies, so Marlin 1.2 will have a [hierarchical file structure](https://github.com/MarlinFirmware/Marlin/tree/breakup-marlin-idea). Marlin's newly reorganized code will be easier to work with and form a stronger starting-point as we get into [32-bit CPU support](https://github.com/MarlinFirmware/Marlin/tree/32-Bit-RCBugFix-new) and the Hardware Access Layer (HAL).
 
-*AutoTemp:*
+[![Coverity Scan Build Status](https://scan.coverity.com/projects/2224/badge.svg)](https://scan.coverity.com/projects/2224)
+[![Travis Build Status](https://travis-ci.org/MarlinFirmware/Marlin.svg)](https://travis-ci.org/MarlinFirmware/Marlin)
 
-If your gcode contains a wide spread of extruder velocities, or you realtime change the building speed, the temperature should be changed accordingly.
-Usually, higher speed requires higher temperature.
-This can now be performed by the AutoTemp function
-By calling M109 S<mintemp> T<maxtemp> F<factor> you enter the autotemp mode.
+## Marlin Resources
 
-You can leave it by calling M109 without any F.
-If active, the maximal extruder stepper rate of all buffered moves will be calculated, and named "maxerate" [steps/sec].
-The wanted temperature then will be set to t=tempmin+factor*maxerate, while being limited between tempmin and tempmax.
-If the target temperature is set manually or by gcode to a value less then tempmin, it will be kept without change.
-Ideally, your gcode can be completely free of temperature controls, apart from a M109 S T F in the start.gcode, and a M109 S0 in the end.gcode.
+- [Marlin Home Page](http://marlinfw.org/) - The Marlin Documentation Project. Join us!
+- [RepRap.org Wiki Page](http://reprap.org/wiki/Marlin) - An overview of Marlin and its role in RepRap.
+- [Marlin Firmware Forum](http://forums.reprap.org/list.php?415) - Find help with configuration, get up and running.
+- [@MarlinFirmware](https://twitter.com/MarlinFirmware) on Twitter - Follow for news, release alerts, and tips & tricks. (Maintained by [@thinkyhead](https://github.com/thinkyhead).)
 
-*EEPROM:*
+## Credits
 
-If you know your PID values, the acceleration and max-velocities of your unique machine, you can set them, and finally store them in the EEPROM.
-After each reboot, it will magically load them from EEPROM, independent what your Configuration.h says.
+The current Marlin dev team consists of:
+ - Roxanne Neufeld [[@Roxy-3D](https://github.com/Roxy-3D)] - English
+ - Scott Lahteine [[@thinkyhead](https://github.com/thinkyhead)] - English
+ - Bob Kuhn [[@Bob-the-Kuhn](https://github.com/Bob-the-Kuhn)] - English
+ - Andreas Hardtung [[@AnHardt](https://github.com/AnHardt)] - Deutsch, English
+ - Nico Tonnhofer [[@Wurstnase](https://github.com/Wurstnase)] - Deutsch, English
+ - Jochen Groppe [[@CONSULitAS](https://github.com/CONSULitAS)] - Deutsch, English
+ - João Brazio [[@jbrazio](https://github.com/jbrazio)] - Portuguese, English
+ - Bo Hermannsen [[@boelle](https://github.com/boelle)] - Danish, English
+ - Bob Cousins [[@bobc](https://github.com/bobc)] - English
+ - [[@maverikou](https://github.com/maverikou)]
+ - Chris Palmer [[@nophead](https://github.com/nophead)]
+ - [[@paclema](https://github.com/paclema)]
+ - Erik van der Zalm [[@ErikZalm](https://github.com/ErikZalm)]
+ - David Braam [[@daid](https://github.com/daid)]
+ - Bernhard Kubicek [[@bkubicek](https://github.com/bkubicek)]
 
-*LCD Menu:*
+More features have been added by:
+ - Alberto Cotronei [[@MagoKimbra](https://github.com/MagoKimbra)] - English, Italian
+ - Thomas Moore [[@tcm0116](https://github.com/tcm0116)]
+ - Ernesto Martinez [[@emartinez167](https://github.com/emartinez167)]
+ - Petr Zahradnik [[@clexpert](https://github.com/clexpert)]
+ - Kai [[@Kaibob2](https://github.com/Kaibob2)]
+ - Edward Patel [[@epatel](https://github.com/epatel)]
+ - F. Malpartida [[@fmalpartida](https://github.com/fmalpartida)] - English, Spanish
+ - [[@esenapaj](https://github.com/esenapaj)] - English, Japanese
+ - [[@benlye](https://github.com/benlye)]
+ - [[@Tannoo](https://github.com/Tannoo)]
+ - [[@teemuatlut](https://github.com/teemuatlut)]
+ - [[@bgort](https://github.com/bgort)]
+ - Luc Van Daele[[@LVD-AC](https://github.com/LVD-AC)] - Dutch, French, English
+ - [[@paulusjacobus](https://github.com/paulusjacobus)]
+ - ...and many others
 
-If your hardware supports it, you can build yourself a LCD-CardReader+Click+encoder combination. It will enable you to realtime tune temperatures,
-accelerations, velocities, flow rates, select and print files from the SD card, preheat, disable the steppers, and do other fancy stuff.
-One working hardware is documented here: http://www.thingiverse.com/thing:12663
-Also, with just a 20x4 or 16x2 display, useful data is shown.
+## License
 
-*SD card folders:*
+Marlin is published under the [GPL license](https://github.com/COPYING.md) because we believe in open development. The GPL comes with both rights and obligations. Whether you use Marlin firmware as the driver for your open or closed-source product, you must keep Marlin open, and you must provide your compatible Marlin source code to end users upon request. The most straightforward way to comply with the Marlin license is to make a fork of Marlin on Github, perform your modifications, and direct users to your modified fork.
 
-If you have an SD card reader attached to your controller, also folders work now. Listing the files in pronterface will show "/path/subpath/file.g".
-You can write to file in a subfolder by specifying a similar text using small letters in the path.
-Also, backup copies of various operating systems are hidden, as well as files not ending with ".g".
+While we can't prevent the use of this code in products (3D printers, CNC, etc.) that are closed source or crippled by a patent, we would prefer that you choose another firmware or, better yet, make your own.
 
-*SD card folders:*
-
-If you place a file auto[0-9].g into the root of the sd card, it will be automatically executed if you boot the printer. The same file will be executed by selecting "Autostart" from the menu.
-First *0 will be performed, than *1 and so on. That way, you can heat up or even print automatically without user interaction.
-
-*Endstop trigger reporting:*
-
-If an endstop is hit while moving towards the endstop, the location at which the firmware thinks that the endstop was triggered is outputed on the serial port.
-This is useful, because the user gets a warning message.
-However, also tools like QTMarlin can use this for finding acceptable combinations of velocity+acceleration.
-
-*Coding paradigm:*
-
-Not relevant from a user side, but Marlin was split into thematic junks, and has tried to partially enforced private variables.
-This is intended to make it clearer, what interacts which what, and leads to a higher level of modularization.
-We think that this is a useful prestep for porting this firmware to e.g. an ARM platform in the future.
-A lot of RAM (with enabled LCD ~2200 bytes) was saved by storing char []="some message" in Program memory.
-In the serial communication, a #define based level of abstraction was enforced, so that it is clear that
-some transfer is information (usually beginning with "echo:"), an error "error:", or just normal protocol,
-necessary for backwards compatibility.
-
-*Interrupt based temperature measurements:*
-
-An interrupt is used to manage ADC conversions, and enforce checking for critical temperatures.
-This leads to less blocking in the heater management routine.
-
-Implemented G Codes:
-====================
-
-*  G0  -> G1
-*  G1  - Coordinated Movement X Y Z E
-*  G2  - CW ARC
-*  G3  - CCW ARC
-*  G4  - Dwell S<seconds> or P<milliseconds>
-*  G10 - retract filament according to settings of M207
-*  G11 - retract recover filament according to settings of M208
-*  G28 - Home all Axis
-*  G90 - Use Absolute Coordinates
-*  G91 - Use Relative Coordinates
-*  G92 - Set current position to cordinates given
-
-M Codes
-*  M0   - Unconditional stop - Wait for user to press a button on the LCD (Only if ULTRA_LCD is enabled)
-*  M1   - Same as M0
-*  M17  - Enable/Power all stepper motors
-*  M18  - Disable all stepper motors; same as M84
-*  M20  - List SD card
-*  M21  - Init SD card
-*  M22  - Release SD card
-*  M23  - Select SD file (M23 filename.g)
-*  M24  - Start/resume SD print
-*  M25  - Pause SD print
-*  M26  - Set SD position in bytes (M26 S12345)
-*  M27  - Report SD print status
-*  M28  - Start SD write (M28 filename.g)
-*  M29  - Stop SD write
-*  M30  - Delete file from SD (M30 filename.g)
-*  M31  - Output time since last M109 or SD card start to serial
-*  M32  - Select file and start SD print (Can be used when printing from SD card)
-*  M42  - Change pin status via gcode Use M42 Px Sy to set pin x to value y, when omitting Px the onboard led will be used.
-*  M80  - Turn on Power Supply
-*  M81  - Turn off Power Supply
-*  M82  - Set E codes absolute (default)
-*  M83  - Set E codes relative while in Absolute Coordinates (G90) mode
-*  M84  - Disable steppers until next move, or use S<seconds> to specify an inactivity timeout, after which the steppers will be disabled.  S0 to disable the timeout.
-*  M85  - Set inactivity shutdown timer with parameter S<seconds>. To disable set zero (default)
-*  M92  - Set axis_steps_per_unit - same syntax as G92
-*  M104 - Set extruder target temp
-*  M105 - Read current temp
-*  M106 - Fan on
-*  M107 - Fan off
-*  M109 - Sxxx Wait for extruder current temp to reach target temp. Waits only when heating
-*         Rxxx Wait for extruder current temp to reach target temp. Waits when heating and cooling
-*  M114 - Output current position to serial port
-*  M115 - Capabilities string
-*  M117 - display message
-*  M119 - Output Endstop status to serial port
-*  M126 - Solenoid Air Valve Open (BariCUDA support by jmil)
-*  M127 - Solenoid Air Valve Closed (BariCUDA vent to atmospheric pressure by jmil)
-*  M128 - EtoP Open (BariCUDA EtoP = electricity to air pressure transducer by jmil)
-*  M129 - EtoP Closed (BariCUDA EtoP = electricity to air pressure transducer by jmil)
-*  M140 - Set bed target temp
-*  M190 - Sxxx Wait for bed current temp to reach target temp. Waits only when heating
-*         Rxxx Wait for bed current temp to reach target temp. Waits when heating and cooling
-*  M200 - Set filament diameter
-*  M201 - Set max acceleration in units/s^2 for print moves (M201 X1000 Y1000)
-*  M202 - Set max acceleration in units/s^2 for travel moves (M202 X1000 Y1000) Unused in Marlin!!
-*  M203 - Set maximum feedrate that your machine can sustain (M203 X200 Y200 Z300 E10000) in mm/sec
-*  M204 - Set default acceleration: S normal moves T filament only moves (M204 S3000 T7000) im mm/sec^2  also sets minimum segment time in ms (B20000) to prevent buffer underruns and M20 minimum feedrate
-*  M205 -  advanced settings:  minimum travel speed S=while printing T=travel only,  B=minimum segment time X= maximum xy jerk, Z=maximum Z jerk, E=maximum E jerk
-*  M206 - set additional homeing offset
-*  M207 - set retract length S[positive mm] F[feedrate mm/sec] Z[additional zlift/hop]
-*  M208 - set recover=unretract length S[positive mm surplus to the M207 S*] F[feedrate mm/sec]
-*  M209 - S<1=true/0=false> enable automatic retract detect if the slicer did not support G10/11: every normal extrude-only move will be classified as retract depending on the direction.
-*  M218 - set hotend offset (in mm): T<extruder_number> X<offset_on_X> Y<offset_on_Y>
-*  M220 S<factor in percent>- set speed factor override percentage
-*  M221 S<factor in percent>- set extrude factor override percentage
-*  M240 - Trigger a camera to take a photograph
-*  M280 - Position an RC Servo P<index> S<angle/microseconds>, ommit S to report back current angle
-*  M300 - Play beepsound S<frequency Hz> P<duration ms>
-*  M301 - Set PID parameters P I and D
-*  M302 - Allow cold extrudes
-*  M303 - PID relay autotune S<temperature> sets the target temperature. (default target temperature = 150C)
-*  M304 - Set bed PID parameters P I and D
-*  M400 - Finish all moves
-*  M500 - stores paramters in EEPROM
-*  M501 - reads parameters from EEPROM (if you need reset them after you changed them temporarily).
-*  M502 - reverts to the default "factory settings".  You still need to store them in EEPROM afterwards if you want to.
-*  M503 - print the current settings (from memory not from eeprom)
-*  M540 - Use S[0|1] to enable or disable the stop SD card print on endstop hit (requires ABORT_ON_ENDSTOP_HIT_FEATURE_ENABLED)
-*  M600 - Pause for filament change X[pos] Y[pos] Z[relative lift] E[initial retract] L[later retract distance for removal]
-*  M907 - Set digital trimpot motor current using axis codes.
-*  M908 - Control digital trimpot directly.
-*  M350 - Set microstepping mode.
-*  M351 - Toggle MS1 MS2 pins directly.
-*  M928 - Start SD logging (M928 filename.g) - ended by M29
-*  M999 - Restart after being stopped by error
-
-
-Configuring and compilation:
-============================
-
-Install the arduino software IDE/toolset v23 (Some configurations also work with 1.x.x)
-   http://www.arduino.cc/en/Main/Software
-
-For gen6/gen7 and sanguinololu the Sanguino directory in the Marlin dir needs to be copied to the arduino environment.
-  copy ArduinoAddons\Arduino_x.x.x\sanguino <arduino home>\hardware\Sanguino
-
-Copy the Marlin firmware
-   https://github.com/ErikZalm/Marlin/tree/Marlin_v1
-   (Use the download button)
-
-Start the arduino IDE.
-Select Tools -> Board -> Arduino Mega 2560    or your microcontroller
-Select the correct serial port in Tools ->Serial Port
-Open Marlin.pde
-
-Click the Verify/Compile button
-
-Click the Upload button
-If all goes well the firmware is uploading
-
-That's ok.  Enjoy Silky Smooth Printing.
-
-
-
-
+[![Flattr this git repo](http://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=ErikZalm&url=https://github.com/MarlinFirmware/Marlin&title=Marlin&language=&tags=github&category=software)
