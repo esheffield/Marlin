@@ -161,13 +161,13 @@
    * Software serial
    */
 
-  #define X_SERIAL_TX_PIN    40
-  #define X_SERIAL_RX_PIN    63
+  #define X_SERIAL_TX_PIN     1 // 40 ECS
+  #define X_SERIAL_RX_PIN     0 // 63 ECS
   #define X2_SERIAL_TX_PIN   -1
   #define X2_SERIAL_RX_PIN   -1
 
-  #define Y_SERIAL_TX_PIN    59
-  #define Y_SERIAL_RX_PIN    64
+  #define Y_SERIAL_TX_PIN    57 // 59 ECS
+  #define Y_SERIAL_RX_PIN    58 // 64 ECS
   #define Y2_SERIAL_TX_PIN   -1
   #define Y2_SERIAL_RX_PIN   -1
 
