@@ -51,6 +51,3 @@ Contributing
   - http://marlinfw.org/docs/development/coding_standards.html
     Before submitting code get to know the Coding Standards.
 */
-
-#include <LiquidCrystal.h>
-
