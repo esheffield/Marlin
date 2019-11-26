@@ -83,6 +83,7 @@
 // build by the user have been successfully uploaded into firmware.
 #define STRING_VERSION_CONFIG_H __DATE__ " " __TIME__ // build date and time
 #define STRING_CONFIG_H_AUTHOR "(Eddie Sheffield, ShefRap 1.2)" // Who made the changes.
+
 #define SHOW_BOOTSCREEN
 #define STRING_SPLASH_LINE1 SHORT_BUILD_VERSION // will be shown during bootup in line 1
 #define STRING_SPLASH_LINE2 WEBSITE_URL         // will be shown during bootup in line 2
@@ -733,7 +734,7 @@
 /**
  * The BLTouch probe uses a Hall effect sensor and emulates a servo.
  */
-//#define BLTOUCH
+#define BLTOUCH
 #if ENABLED(BLTOUCH)
 //  #define BLTOUCH_DELAY 375   // (ms) Enable and increase if needed
 #endif
@@ -1226,10 +1227,13 @@
 // M500 - stores parameters in EEPROM
 // M501 - reads parameters from EEPROM (if you need reset them after you changed them temporarily).
 // M502 - reverts to the default "factory settings".  You still need to store them in EEPROM afterwards if you want to.
-//
-//#define EEPROM_SETTINGS // Enable for M500 and M501 commands
-//#define DISABLE_M503    // Saves ~2700 bytes of PROGMEM. Disable for release!
-#define EEPROM_CHITCHAT   // Give feedback on EEPROM commands. Disable to save PROGMEM.
+//define this to enable EEPROM support
+//#define EEPROM_SETTINGS
+
+#if ENABLED(EEPROM_SETTINGS)
+  // To disable EEPROM Serial responses and decrease program space by ~1700 byte: comment this out:
+  #define EEPROM_CHITCHAT // Please keep turned on if you can.
+#endif
 
 //
 // Host Keepalive
@@ -1300,8 +1304,7 @@
  * Patterns:
  *   P0  Straight line (default). This process requires a sponge type material
  *       at a fixed bed location. "S" specifies strokes (i.e. back-forth motions)
- *       between the start / end points.
- *
+ *       between the start / end points. *
  *   P1  Zig-zag pattern between (X0, Y0) and (X1, Y1), "T" specifies the
  *       number of zig-zag triangles to do. "S" defines the number of strokes.
  *       Zig-zags are done in whichever is the narrower dimension.
@@ -1430,7 +1433,7 @@
  * you must uncomment the following option or it won't work.
  *
  */
-//#define SDSUPPORT
+#define SDSUPPORT
 
 /**
  * SD CARD: SPI SPEED
@@ -1557,7 +1560,7 @@
 //
 // Note: Usually sold with a blue PCB.
 //
-//#define G3D_PANEL
+#define G3D_PANEL
 
 //
 // RigidBot Panel V1.0
