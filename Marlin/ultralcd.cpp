@@ -24,7 +24,7 @@
 
 #if ENABLED(ULTRA_LCD)
 
-#include "ultralcd.h"x
+#include "ultralcd.h"
 #include "Marlin.h"
 #include "language.h"
 #include "cardreader.h"
