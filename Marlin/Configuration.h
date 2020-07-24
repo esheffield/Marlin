@@ -33,7 +33,8 @@
 // 0 ... no heated bed
 // 1 ... aluminium heated bed with "BuildTak-like" sticker
 // 2 ... ultrabase heated bed
-#define ANYCUBIC_KOSSEL_ENABLE_BED 1
+// 3 ... aluminum heated bed with "Wham-Bam" magnetic bed
+#define ANYCUBIC_KOSSEL_ENABLE_BED 3
 
 /**
  * Configuration.h
@@ -409,9 +410,13 @@
   //#define DEFAULT_Kd 440
 
   // Anycubic Kossel - run 'M106 S255' & 'M303 E0 C10 S200'
-  #define DEFAULT_Kp 22.36
-  #define DEFAULT_Ki 1.63
-  #define DEFAULT_Kd 76.48
+  // #define DEFAULT_Kp 22.36
+  // #define DEFAULT_Ki 1.63
+  // #define DEFAULT_Kd 76.48
+
+  #define DEFAULT_Kp 28.74
+  #define DEFAULT_Ki 2.06
+  #define DEFAULT_Kd 100.05
 
 #endif // PIDTEMP
 
@@ -459,6 +464,10 @@
     #define DEFAULT_bedKp 374.03
     #define DEFAULT_bedKi 72.47
     #define DEFAULT_bedKd 482.59
+  #elif ANYCUBIC_KOSSEL_ENABLE_BED == 3
+    #define DEFAULT_bedKp 686.47
+    #define DEFAULT_bedKi 106.07
+    #define DEFAULT_bedKd 1110.70
   #endif
 
   //#define PID_BED_DEBUG // Sends debug data to the serial port.
